@@ -14,6 +14,23 @@ class AdminDashBoardScreen extends StatelessWidget {
         ),
         backgroundColor: themeColor,
       ),
+      bottomNavigationBar: Container(
+        height: 70,
+        margin: const EdgeInsets.only(left: 15, right: 15, bottom: 10),
+        decoration: const BoxDecoration(
+          color: cblue,
+          borderRadius: BorderRadius.all(
+            Radius.circular(10),
+          ),
+        ),
+        child: const Center(
+          child: Text(
+            'Add Locations',
+            style: TextStyle(
+                color: cWhite, fontSize: 20, fontWeight: FontWeight.w300),
+          ),
+        ),
+      ),
     );
   }
 }

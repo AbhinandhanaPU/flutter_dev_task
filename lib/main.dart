@@ -1,9 +1,16 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dev_task/firebase_options.dart';
 import 'package:flutter_dev_task/utils/colors/colors.dart';
-import 'package:flutter_dev_task/view/admin/dashboard_screen.dart';
+import 'package:flutter_dev_task/view/common_screens/splash_screen/splash_screen.dart';
 import 'package:get/get.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -22,7 +29,7 @@ class MyApp extends StatelessWidget {
         ),
         appBarTheme: const AppBarTheme(foregroundColor: cWhite),
       ),
-      home: const AdminDashBoardScreen(),
+      home: const SplashScreen(),
     );
   }
 }
