@@ -46,6 +46,7 @@ dependencies:
   excel: ^4.0.3
   file_picker: ^8.0.5
   uuid: ^4.4.2
+  http: ^1.2.2
 
 dev_dependencies:
   flutter_test:
