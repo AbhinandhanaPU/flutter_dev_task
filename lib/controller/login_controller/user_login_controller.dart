@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dev_task/utils/firebase/firebase.dart';
 import 'package:flutter_dev_task/utils/utils/utils.dart';
-import 'package:flutter_dev_task/view/admin/dashboard_screen.dart';
+import 'package:flutter_dev_task/view/user/user_dashboard/dashboard.dart';
 import 'package:get/get.dart';
 import 'package:progress_state_button/progress_button.dart';
 
@@ -22,19 +22,26 @@ class UserLoginController extends GetxController {
         password: passwordController.text.trim(),
       )
           .then((value) async {
-        final user = await server.collection('User').doc(value.user?.uid).get();
+        final user =
+            await server.collection('Users').doc(value.user?.uid).get();
 
         if (user.data() != null) {
-          Navigator.pushReplacement(
+          buttonstate.value = ButtonState.success;
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) {
-                return const AdminDashBoardScreen();
-              },
+              builder: (context) => UserDashBoard(),
             ),
+            (route) => false,
           );
           emailController.clear();
           passwordController.clear();
+        } else {
+          buttonstate.value = ButtonState.fail;
+          showToast(msg: 'Your are not User. Try Different Login!');
+          await Future.delayed(const Duration(seconds: 3)).then((vazlue) {
+            buttonstate.value = ButtonState.idle;
+          });
         }
       }).catchError((error) {
         if (error is FirebaseAuthException) {

@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dev_task/utils/utils/utils.dart';
-import 'package:flutter_dev_task/view/admin/dashboard_screen.dart';
+import 'package:flutter_dev_task/view/user/user_dashboard/dashboard.dart';
 import 'package:get/get.dart';
 import 'package:progress_state_button/progress_button.dart';
 
@@ -37,6 +37,7 @@ class UserSignUpController extends GetxController {
             .collection('Users')
             .doc(authvalue.user!.uid)
             .set({
+          'docId': authvalue.user!.uid,
           'userName': nameController.text,
           'emailId': emailController.text,
           'password': passwordController.text,
@@ -65,7 +66,7 @@ class UserSignUpController extends GetxController {
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
                           builder: (context) {
-                            return const AdminDashBoardScreen();
+                            return UserDashBoard();
                           },
                         ), (route) => false);
                       },

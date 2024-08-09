@@ -1,5 +1,6 @@
 import 'package:flutter_dev_task/utils/colors/colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:uuid/uuid.dart';
 
 void showToast({required String msg}) {
   Fluttertoast.showToast(
@@ -12,3 +13,5 @@ void showToast({required String msg}) {
     fontSize: 16.0,
   );
 }
+
+const uuid = Uuid();

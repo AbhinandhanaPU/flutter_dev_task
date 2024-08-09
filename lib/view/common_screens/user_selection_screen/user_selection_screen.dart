@@ -90,6 +90,6 @@ List<String> userList = [
 ];
 
 var userIcons = [
-  'assets/images/student.png',
-  'assets/images/admin.png',
+  'assets/flaticons/user.png',
+  'assets/flaticons/admin.png',
 ];

@@ -26,16 +26,22 @@ class AdminLoginController extends GetxController {
             await server.collection('admin').doc(value.user?.uid).get();
 
         if (user.data() != null) {
-          Navigator.pushReplacement(
+          buttonstate.value = ButtonState.success;
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) {
-                return const AdminDashBoardScreen();
-              },
+              builder: (context) => const AdminDashBoardScreen(),
             ),
+            (route) => false,
           );
           emailController.clear();
           passwordController.clear();
+        } else {
+          buttonstate.value = ButtonState.fail;
+          showToast(msg: 'Your are not an Admin. Try Different Login!');
+          await Future.delayed(const Duration(seconds: 3)).then((vazlue) {
+            buttonstate.value = ButtonState.idle;
+          });     
         }
       }).catchError((error) {
         if (error is FirebaseAuthException) {

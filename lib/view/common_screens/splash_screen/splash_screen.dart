@@ -21,8 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
           builder: (context) => const UserSelectionScreen(),
         ),
       );
-    }
-    );
+    });
     super.initState();
   }
 
@@ -44,18 +43,21 @@ class _SplashScreenState extends State<SplashScreen> {
                   curve: Curves.fastLinearToSlowEaseIn,
                   child: FadeInAnimation(
                     child: Container(
-                      height: 220,
-                      width: 220,
+                      height: 350,
+                      width: double.infinity,
                       decoration: const BoxDecoration(
-                          image: DecorationImage(
-                        image: AssetImage(
-                          'assets/images/login.webp',
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/splash.png'),
+                          fit: BoxFit.fill,
                         ),
-                      )),
+                      ),
                     ),
                   ),
                 ),
               ),
+            ),
+            const SizedBox(
+              height: 40,
             ),
             const Center(
               child: AnimationConfiguration.staggeredGrid(
