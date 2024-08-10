@@ -74,7 +74,7 @@ class ExcelController extends GetxController {
               };
 
               await server
-                  .collection('User')
+                  .collection('Users')
                   .doc(serverAuth.currentUser!.uid)
                   .collection('locations')
                   .doc('$country-$state-$city')

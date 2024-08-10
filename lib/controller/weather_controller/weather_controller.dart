@@ -16,7 +16,7 @@ class WeathercController extends GetxController {
     isLoading.value = true;
     try {
       final QuerySnapshot<Map<String, dynamic>> snapshot = await server
-          .collection('User')
+          .collection('Users')
           .doc(serverAuth.currentUser!.uid)
           .collection('locations')
           .get();
