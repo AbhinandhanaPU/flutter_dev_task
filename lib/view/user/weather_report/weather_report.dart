@@ -15,22 +15,17 @@ class WeatherReportScreen extends StatefulWidget {
 }
 
 class _WeatherReportScreenState extends State<WeatherReportScreen> {
-  final WeathercController weathercController = Get.put(WeathercController());
+  final WeathercController weatherController = Get.put(WeathercController());
 
   @override
   void initState() {
     super.initState();
-    _fetchWeather();
+    fetchWeatherForLocations();
   }
 
-  void _fetchWeather() async {
+  void fetchWeatherForLocations() async {
     try {
-      await weathercController
-          .fetchWeather('IN', 'kerala', 'aluva')
-          .then((value) {
-        log('Fetching weather data');
-        log(weathercController.weatherModel.toString());
-      });
+      await weatherController.fetchWeatherForLocations();
     } catch (e) {
       log('Error fetching weather data: $e');
     }
@@ -38,7 +33,7 @@ class _WeatherReportScreenState extends State<WeatherReportScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final weather = weathercController.weatherModel;
+    final weather = weatherController.weatherModel;
     return Scaffold(
       backgroundColor: screenContainerbackgroundColor,
       appBar: AppBar(
@@ -46,22 +41,30 @@ class _WeatherReportScreenState extends State<WeatherReportScreen> {
         foregroundColor: cWhite,
         title: const Text('Weather Report'),
       ),
-      body: weather != null
-          ? ListView(
+      body: Obx(
+        () {
+          if (weatherController.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (weatherController.weatherModel.value != null) {
+            return ListView(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               children: [
-                weatherLayout1(weather),
+                weatherLayout1(weather.value!),
                 const SizedBox(height: 20),
-                weatherLayout2(weather),
+                weatherLayout2(weather.value!),
                 const SizedBox(height: 20),
-                weatherLayout4(weather),
+                weatherLayout4(weather.value!),
                 const SizedBox(height: 20),
-                weatherLayout3(weather),
+                weatherLayout3(weather.value!),
                 const SizedBox(height: 20),
-                weatherLayout5(weather),
+                weatherLayout5(weather.value!),
               ],
-            )
-          : const Center(child: CircularProgressIndicator()),
+            );
+          } else {
+            return const Center(child: Text('No data available'));
+          }
+        },
+      ),
     );
   }
 
@@ -76,7 +79,7 @@ class _WeatherReportScreenState extends State<WeatherReportScreen> {
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 5,
             blurRadius: 7,
-            offset: const Offset(0, 3), // changes position of shadow
+            offset: const Offset(0, 3),
           ),
         ],
       ),
@@ -91,7 +94,7 @@ class _WeatherReportScreenState extends State<WeatherReportScreen> {
                   Text('${weather.name}, ${weather.sys?.country}',
                       style: const TextStyle(
                           fontSize: 22, fontWeight: FontWeight.bold)),
-                  Text('${weather.weather[0].description}',
+                  Text('${weather.weather![0].description}',
                       style: const TextStyle(fontSize: 16)),
                 ],
               ),
@@ -164,7 +167,7 @@ class _WeatherReportScreenState extends State<WeatherReportScreen> {
             title:
                 Text('${weather.name}', style: const TextStyle(fontSize: 20)),
             subtitle:
-                Text('${weather.main?.temp}°C, ${weather.weather[0].main}'),
+                Text('${weather.main?.temp}°C, ${weather.weather![0].main}'),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -206,7 +209,7 @@ class _WeatherReportScreenState extends State<WeatherReportScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(Icons.wb_cloudy, size: 40, color: Colors.white),
-                    Text("${weather.weather[0].description}",
+                    Text("${weather.weather![0].description}",
                         style: const TextStyle(color: Colors.white)),
                   ],
                 ),
@@ -235,8 +238,8 @@ class _WeatherReportScreenState extends State<WeatherReportScreen> {
     return Stack(
       alignment: Alignment.center,
       children: [
-        Image.network(
-          'https://img.freepik.com/premium-vector/sky-clouds-design-with-flat-cartoon-poster-flyers-postcards-web-banners_771576-58.jpg',
+        Image.asset(
+          'assets/images/cloud.jpg',
           height: 300,
           fit: BoxFit.cover,
         ),
@@ -244,7 +247,7 @@ class _WeatherReportScreenState extends State<WeatherReportScreen> {
           children: [
             Text('${weather.name}',
                 style: const TextStyle(fontSize: 22, color: Colors.white)),
-            Text('${weather.main?.temp}°C, ${weather.weather[0].main}',
+            Text('${weather.main?.temp}°C, ${weather.weather![0].main}',
                 style: const TextStyle(fontSize: 18, color: Colors.white)),
           ],
         ),

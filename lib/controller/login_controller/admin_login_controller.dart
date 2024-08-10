@@ -30,7 +30,7 @@ class AdminLoginController extends GetxController {
           Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(
-              builder: (context) => const AdminDashBoardScreen(),
+              builder: (context) => AdminDashBoardScreen(),
             ),
             (route) => false,
           );
@@ -41,7 +41,7 @@ class AdminLoginController extends GetxController {
           showToast(msg: 'Your are not an Admin. Try Different Login!');
           await Future.delayed(const Duration(seconds: 3)).then((vazlue) {
             buttonstate.value = ButtonState.idle;
-          });     
+          });
         }
       }).catchError((error) {
         if (error is FirebaseAuthException) {

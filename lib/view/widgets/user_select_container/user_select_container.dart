@@ -14,8 +14,8 @@ class UserContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width * 2 / 3,
-      height: width * 1 / 3,
+      width: width * 2 / 4,
+      height: width * 2 / 4,
       margin: EdgeInsets.only(
           bottom: width / 10,
           left: width / 20,
